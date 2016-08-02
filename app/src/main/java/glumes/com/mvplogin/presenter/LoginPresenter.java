@@ -38,8 +38,9 @@ public class LoginPresenter implements LoginContract.Presenter {
 
         mModel = new LoginModel();
 
-        mModel.setPresenter(this);
-
+        /**
+         * 得到主线程,也就是 UI 线程的消息循环 Looper
+         */
         UiHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -68,6 +69,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     /**
+     * 检查用户的邮箱和密码是否正确
      * @param email
      * @param password
      */
@@ -93,6 +95,10 @@ public class LoginPresenter implements LoginContract.Presenter {
                         @Override
                         public void run() {
                             cancelLoadingDialog();
+                            /**
+                             * ProgressDialog 的 dismiss() 操作并不算是在主线程的操作
+                             * 而 mView 的 setEmail 的操作才是主线程的更新 UI 的操作
+                             */
                             mView.setEmail("cancel login");
                         }
                     });

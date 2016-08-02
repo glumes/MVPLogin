@@ -7,6 +7,9 @@ import java.util.List;
  */
 public interface LoginContract {
 
+    /**
+     * View 层的接口
+     */
     interface View extends BaseView<Presenter> {
         void showLoading();
 
@@ -21,6 +24,9 @@ public interface LoginContract {
         boolean isActive();
     }
 
+    /**
+     * Presenter 层的接口
+     */
     interface Presenter extends BasePresenter {
         void showLoadingDialog();
 
@@ -29,15 +35,20 @@ public interface LoginContract {
         void checkUserInfo(String email,String  password);
     }
 
+    /**
+     * Model 层的接口
+     */
     interface Model {
 
         List<String> LoaderInitData();
 
-        boolean checkUserInfo(String email,String password,LoginContract.CallBack callBack);
+        void checkUserInfo(String email,String password,LoginContract.CallBack callBack);
 
-        void setPresenter(LoginContract.Presenter presenter);
     }
 
+    /**
+     * Model 层传递数据到 Presenter 层时的回调接口
+     */
     interface CallBack {
         void LoginSuccess();
         void LoginFailed();

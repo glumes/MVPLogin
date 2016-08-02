@@ -24,7 +24,6 @@ import glumes.com.mvplogin.WelcomeMVPActivity;
 
 public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
-    private ProgressBar mProgressBar;
     private AutoCompleteTextView mTextView;
     private EditText mEditText;
     private Button mButton;
@@ -61,7 +60,6 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         mButton = (Button) root.findViewById(R.id.email_sign_in_button);
         mEditText = (EditText) root.findViewById(R.id.password);
         mTextView = (AutoCompleteTextView) root.findViewById(R.id.email);
-        mProgressBar = (ProgressBar) root.findViewById(R.id.login_progress);
         mButton.setOnClickListener(this);
         return root;
     }
@@ -125,6 +123,11 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         startActivity(new Intent(getActivity(), WelcomeMVPActivity.class));
     }
 
+    /**
+     * 防止 P 层中持有 V 层导致内存泄漏
+     * 通过 Fragment 中的 isAdded() 方法判断当前 Fragment 是否已经添加到 Activity 当中去
+     * @return
+     */
     @Override
     public boolean isActive() {
         return isAdded();

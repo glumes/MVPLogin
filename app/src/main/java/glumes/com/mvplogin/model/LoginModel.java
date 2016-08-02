@@ -9,21 +9,12 @@ import glumes.com.mvplogin.LoginContract;
  */
 public class LoginModel implements LoginContract.Model {
 
-    private LoginContract.Presenter mPresenter;
-
     public LoginModel() {
     }
 
-    public static LoginModel newInstance() {
-        return new LoginModel();
-    }
-
-    public void setPresenter(LoginContract.Presenter presenter) {
-        this.mPresenter = presenter;
-    }
 
     /**
-     * 初始化数据
+     * 初始化数据,提供默认的邮箱和密码
      */
     @Override
     public List<String> LoaderInitData() {
@@ -31,28 +22,34 @@ public class LoginModel implements LoginContract.Model {
     }
 
     /**
+     * 模拟检查用户的邮箱和密码是否正确
      * @param email
      * @param password
      * @return
      */
     @Override
-    public boolean checkUserInfo(String email, String password, final LoginContract.CallBack callBack) {
+    public void checkUserInfo(String email, String password, final LoginContract.CallBack callBack) {
         /**
-         * 开启一个线程模拟网络请求
+         * 在 Model 层中开启一个线程模拟网络请求
          */
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(2000);
+                    /**
+                     * Model 层的数据处理完了之后,回调接口在 Presenter 层实现.
+                     * 因为这是在子线程中,所以 Presenter 中必须要通过 Handler 在主线程在更新 UI
+                     */
                     callBack.LoginSuccess();
+
+//                    callBack.LoginFailed();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
 
-        return true;
 
     }
 

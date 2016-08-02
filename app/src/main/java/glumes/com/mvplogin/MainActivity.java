@@ -9,7 +9,7 @@ import glumes.com.mvplogin.view.LoginFragment;
 
 /**
  * Activity 的作用是创建 View 和 Presenter
- * 以及将 View 传递给 Presenter
+ * 以及将 View 传递给 Presenter 进行绑定
  */
 public class MainActivity extends AppCompatActivity {
 
